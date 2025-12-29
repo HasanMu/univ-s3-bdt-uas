@@ -3,7 +3,7 @@
 
 Sistem basis data terdistribusi dengan arsitektur 3-tier yang mengimplementasikan fragmentasi horizontal derivatif dan master-slave replication untuk mengelola donasi bencana alam berskala nasional.
 
-## 🎯 Arsitektur Sistem
+## Arsitektur Sistem
 
 ### 3-Tier Architecture
 1. **Client Application** (Port 8080) - Interface web untuk donatur dan admin
@@ -23,7 +23,7 @@ Setiap node memiliki:
 - **Master:** Menangani operasi WRITE (INSERT, UPDATE, DELETE)
 - **Slave:** Menangani operasi READ untuk load balancing
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 ### Prerequisites
 - Docker Desktop
@@ -52,7 +52,7 @@ Setiap node memiliki:
 - **API Middleware:** http://localhost:8000
 - **API Docs:** http://localhost:8000/docs
 
-## 🧪 Testing Sistem
+## Testing Sistem
 
 ### 1. Health Check
 Kunjungi tab "Monitoring" di web client atau akses:
@@ -124,7 +124,7 @@ curl -X POST http://localhost:8000/donasi \
    docker-compose start jakarta_master
    ```
 
-## 📊 API Endpoints
+## API Endpoints
 
 ### Bencana Management
 - `POST /bencana` - Tambah bencana baru
@@ -140,7 +140,7 @@ curl -X POST http://localhost:8000/donasi \
 - `GET /health` - Status semua database nodes
 - `GET /dashboard/summary` - Ringkasan statistik
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Container Tidak Start
 ```bash
@@ -165,7 +165,7 @@ Jika port sudah digunakan, ubah di `docker-compose.yml`:
 - API: ganti `8000:8000` ke port lain
 - Database: ganti port range 5432-5437
 
-## 📁 Struktur Project
+## Struktur Project
 
 ```
 PlatformDonasiBencanaAlam/
@@ -199,7 +199,7 @@ PlatformDonasiBencanaAlam/
 └── project-d3p.zip             # Export project
 ```
 
-## 🎯 Target Implementasi
+## Target Implementasi
 
 ✅ **Simulasi kegagalan node** - Sistem tetap berjalan saat satu node down
 ✅ **Load balancing baca** - Read operations menggunakan slave
@@ -207,6 +207,6 @@ PlatformDonasiBencanaAlam/
 ✅ **Fragmentasi derivatif** - Donasi mengikuti lokasi bencana
 ✅ **Master-slave replication** - Redundansi dan performa
 
-## 📄 Lisensi
+## Lisensi
 
 Project ini dibuat untuk tujuan edukasi dan demonstrasi konsep distributed database systems.

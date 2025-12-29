@@ -2,8 +2,6 @@
 
 Repository ini berisi implementasi berbagai konsep sistem basis data terdistribusi dalam konteks pengelolaan data bencana alam.
 
-## 📂 Projects
-
 ### 1. [Platform Donasi Bencana Alam (D3P)](PlatformDonasiBencanaAlam/README.md)
 **Arsitektur:** Client-Server dengan Fragmentasi Horizontal Derivatif & Master-Slave Replication
 
