@@ -1,0 +1,11 @@
+@startuml sequence_diagram
+actor Client
+participant Middleware
+participant MasterDB
+participant ReplicaDB
+
+Client -> Middleware : Create Bencana
+Middleware -> MasterDB : INSERT bencana
+MasterDB -> ReplicaDB : Replication
+Middleware -> Client : Success Response
+@enduml

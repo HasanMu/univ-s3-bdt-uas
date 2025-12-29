@@ -1,0 +1,25 @@
+@startuml routing_diagram
+
+actor Client
+participant Middleware
+participant DB_Jakarta
+participant DB_Medan
+participant DB_Makassar
+participant DB_Surabaya
+participant DB_Jayapura
+
+Client -> Middleware : Request(region)
+Middleware -> Middleware : Validasi Region
+
+alt Jakarta Region
+  Middleware -> DB_Jakarta : Query
+else Medan Region
+  Middleware -> DB_Medan : Query
+else Makassar Region
+  Middleware -> DB_Makassar : Query
+else Surabaya Region
+  Middleware -> DB_Surabaya : Query
+else Jayapura Region
+  Middleware -> DB_Jayapura : Query
+end
+@enduml

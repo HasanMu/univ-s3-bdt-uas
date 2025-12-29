@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Donasi Bencana Alam (D3P)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .tab-button:last-child {
+            border-right: none;
+        }
+
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #e9ecef;
+        }
+
+        .tab-content {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #718096;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a67d8;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .card p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #718096;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 Platform Donasi Bencana Alam</h1>
+            <p>Sistem Basis Data Terdistribusi - Distributed Disaster Donation Platform (D3P)</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('dashboard')">Dashboard</button>
+            <button class="tab-button" onclick="showTab('bencana')">Kelola Bencana</button>
+            <button class="tab-button" onclick="showTab('donasi')">Kelola Donasi</button>
+            <button class="tab-button" onclick="showTab('site')">Data Site</button>
+            <button class="tab-button" onclick="showTab('monitoring')">Monitoring</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-pane active">
+                <h2 style="margin-bottom: 20px; color: #495057;">Dashboard Ringkasan</h2>
+                <div id="summary-cards" class="summary-cards">
+                    <div class="card">
+                        <h3 id="total-bencana">-</h3>
+                        <p>Total Bencana</p>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-donasi">-</h3>
+                        <p>Total Donasi</p>
+                    </div>
+                    <div class="card">
+                        <h3 id="total-nominal">Rp -</h3>
+                        <p>Total Nominal Donasi</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="region-filter">Filter berdasarkan Region:</label>
+                    <select id="region-filter" onchange="loadDashboard()">
+                        <option value="">Semua Region</option>
+                        <option value="DKI_Jakarta">DKI Jakarta</option>
+                        <option value="Jawa_Barat">Jawa Barat</option>
+                        <option value="Jawa_Timur">Jawa Timur</option>
+                        <option value="Bali">Bali</option>
+                        <option value="Nusa_Tenggara_Barat">Nusa Tenggara Barat</option>
+                        <option value="Nusa_Tenggara_Timur">Nusa Tenggara Timur</option>
+                        <option value="Jawa_Tengah">Jawa Tengah</option>
+                        <option value="Papua">Papua</option>
+                        <option value="Papua_Barat">Papua Barat</option>
+                        <option value="Sulawesi_Selatan">Sulawesi Selatan</option>
+                        <option value="Sulawesi_Barat">Sulawesi Barat</option>
+                        <option value="Sulawesi_Tenggara">Sulawesi Tenggara</option>
+                        <option value="Gorontalo">Gorontalo</option>
+                        <option value="Sulawesi_Tengah">Sulawesi Tengah</option>
+                        <option value="Sumatera_Utara">Sumatera Utara</option>
+                        <option value="Aceh">Aceh</option>
+                        <option value="Riau">Riau</option>
+                        <option value="Sumatera_Barat">Sumatera Barat</option>
+                        <option value="Jambi">Jambi</option>
+                        <option value="Sumatera_Selatan">Sumatera Selatan</option>
+                        <option value="Lampung">Lampung</option>
+                        <option value="Bangka_Belitung">Bangka Belitung</option>
+                    </select>
+                </div>
+
+                <h3 style="margin: 30px 0 20px; color: #495057;">Data Bencana Terbaru</h3>
+                <div id="bencana-table-container">
+                    <div class="loading">Memuat data...</div>
+                </div>
+            </div>
+
+            <!-- Bencana Management Tab -->
+            <div id="bencana" class="tab-pane">
+                <h2 style="margin-bottom: 20px; color: #495057;">Kelola Data Bencana</h2>
+
+                <div id="bencana-alert" style="display: none;"></div>
+
+                <form id="bencana-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nama-bencana">Nama Bencana:</label>
+                            <input type="text" id="nama-bencana" required placeholder="Contoh: Banjir Jakarta">
+                        </div>
+                        <div class="form-group">
+                            <label for="region-bencana">Region:</label>
+                            <select id="region-bencana" required>
+                                <option value="">Pilih Region</option>
+                                <option value="DKI_Jakarta">DKI Jakarta</option>
+                                <option value="Jawa_Barat">Jawa Barat</option>
+                                <option value="Jawa_Timur">Jawa Timur</option>
+                                <option value="Bali">Bali</option>
+                                <option value="Nusa_Tenggara_Barat">Nusa Tenggara Barat</option>
+                                <option value="Nusa_Tenggara_Timur">Nusa Tenggara Timur</option>
+                                <option value="Jawa_Tengah">Jawa Tengah</option>
+                                <option value="Papua">Papua</option>
+                                <option value="Papua_Barat">Papua Barat</option>
+                                <option value="Sulawesi_Selatan">Sulawesi Selatan</option>
+                                <option value="Sulawesi_Barat">Sulawesi Barat</option>
+                                <option value="Sulawesi_Tenggara">Sulawesi Tenggara</option>
+                                <option value="Gorontalo">Gorontalo</option>
+                                <option value="Sulawesi_Tengah">Sulawesi Tengah</option>
+                                <option value="Sumatera_Utara">Sumatera Utara</option>
+                                <option value="Aceh">Aceh</option>
+                                <option value="Riau">Riau</option>
+                                <option value="Sumatera_Barat">Sumatera Barat</option>
+                                <option value="Jambi">Jambi</option>
+                                <option value="Sumatera_Selatan">Sumatera Selatan</option>
+                                <option value="Lampung">Lampung</option>
+                                <option value="Bangka_Belitung">Bangka Belitung</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status-bencana">Status:</label>
+                        <select id="status-bencana">
+                            <option value="Active">Active</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tambah Bencana</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetBencanaForm()">Reset</button>
+                </form>
+
+                <h3 style="margin: 40px 0 20px; color: #495057;">Daftar Bencana</h3>
+                <div id="bencana-list-container">
+                    <div class="loading">Memuat data...</div>
+                </div>
+            </div>
+
+            <!-- Donasi Management Tab -->
+            <div id="donasi" class="tab-pane">
+                <h2 style="margin-bottom: 20px; color: #495057;">Kelola Donasi</h2>
+
+                <div id="donasi-alert" style="display: none;"></div>
+
+                <form id="donasi-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id-bencana-donasi">Pilih Bencana:</label>
+                            <select id="id-bencana-donasi" required>
+                                <option value="">Memuat bencana...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nama-donatur">Nama Donatur:</label>
+                            <input type="text" id="nama-donatur" required placeholder="Nama lengkap donatur">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nominal-donasi">Nominal Donasi (Rp):</label>
+                        <input type="number" id="nominal-donasi" required min="1000"
+                               placeholder="Minimal Rp 1.000">
+                    </div>
+                    <button type="submit" class="btn btn-success">Kirim Donasi</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetDonasiForm()">Reset</button>
+                </form>
+
+                <h3 style="margin: 40px 0 20px; color: #495057;">Riwayat Donasi</h3>
+                <div id="donasi-list-container">
+                    <div class="loading">Memuat data...</div>
+                </div>
+            </div>
+
+            <!-- Site Data Tab -->
+            <div id="site" class="tab-pane">
+                <h2 style="margin-bottom: 20px; color: #495057;">Data Site Database</h2>
+
+                <div class="form-group">
+                    <label for="site-select">Pilih Site:</label>
+                    <select id="site-select" onchange="loadSiteData()">
+                        <option value="">Pilih Site</option>
+                        <option value="jakarta">Jakarta</option>
+                        <option value="surabaya">Surabaya</option>
+                        <option value="medan">Medan</option>
+                        <option value="makassar">Makassar</option>
+                        <option value="jayapura">Jayapura</option>
+                    </select>
+                </div>
+
+                <div id="site-info" style="display: none; margin-bottom: 20px;">
+                    <h3 id="site-title"></h3>
+                    <p><strong>Regions:</strong> <span id="site-regions"></span></p>
+                </div>
+
+                <h3 id="bencana-site-title" style="margin: 30px 0 20px; color: #495057; display: none;">Data Bencana</h3>
+                <div id="bencana-site-container">
+                    <div class="loading">Pilih site untuk melihat data</div>
+                </div>
+
+                <h3 id="donasi-site-title" style="margin: 40px 0 20px; color: #495057; display: none;">Data Donasi</h3>
+                <div id="donasi-site-container">
+                    <div class="loading">Pilih site untuk melihat data</div>
+                </div>
+            </div>
+
+            <!-- Monitoring Tab -->
+            <div id="monitoring" class="tab-pane">
+                <h2 style="margin-bottom: 20px; color: #495057;">Monitoring Sistem</h2>
+
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3 id="node-jakarta-status">-</h3>
+                        <p>Node Jakarta</p>
+                    </div>
+                    <div class="card">
+                        <h3 id="node-surabaya-status">-</h3>
+                        <p>Node Surabaya</p>
+                    </div>
+                    <div class="card">
+                        <h3 id="node-medan-status">-</h3>
+                        <p>Node Medan</p>
+                    </div>
+                    <div class="card">
+                        <h3 id="node-makassar-status">-</h3>
+                        <p>Node Makassar</p>
+                    </div>
+                    <div class="card">
+                        <h3 id="node-jayapura-status">-</h3>
+                        <p>Node Jayapura</p>
+                    </div>
+                </div>
+
+                <button onclick="checkHealth()" class="btn btn-primary">Periksa Status Node</button>
+
+                <h3 style="margin: 40px 0 20px; color: #495057;">Informasi Sistem</h3>
+                <div class="card">
+                    <h4>Arsitektur Sistem:</h4>
+                    <ul style="text-align: left; margin-top: 10px;">
+                        <li><strong>Fragmentasi Horizontal Derivatif:</strong> Berdasarkan region geografis</li>
+                        <li><strong>Node Jakarta:</strong> DKI Jakarta, Jawa Barat</li>
+                        <li><strong>Node Surabaya:</strong> Jawa Timur, Bali, Nusa Tenggara Barat, Nusa Tenggara Timur, Jawa Tengah</li>
+                        <li><strong>Node Medan:</strong> Sumatera Utara, Aceh, Riau, Sumatera Barat, Jambi, Sumatera Selatan, Lampung, Bangka Belitung</li>
+                        <li><strong>Node Makassar:</strong> Sulawesi Selatan, Sulawesi Barat, Sulawesi Tenggara, Gorontalo, Sulawesi Tengah</li>
+                        <li><strong>Node Jayapura:</strong> Papua, Papua Barat</li>
+                        <li><strong>ID Auto-Generated:</strong> ID bencana dan donasi dihasilkan otomatis oleh database</li>
+                        <li><strong>Master-Slave Replication:</strong> Write ke Master, Read dari Slave dengan fallback</li>
+                        <li><strong>Query Router:</strong> Middleware Node.js Express.js</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        // Tab switching
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-pane');
+            const buttons = document.querySelectorAll('.tab-button');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load data for specific tabs
+            if (tabName === 'dashboard') loadDashboard();
+            if (tabName === 'bencana') loadBencanaList();
+            if (tabName === 'donasi') {
+                loadDonasiOptions();
+                loadDonasiList();
+            }
+        }
+
+        // Dashboard functions
+        async function loadDashboard() {
+            try {
+                const region = document.getElementById('region-filter').value;
+                const params = region ? `?region=${encodeURIComponent(region)}` : '';
+
+                const [summaryResponse, bencanaResponse] = await Promise.all([
+                    fetch(`${API_BASE}/dashboard/summary`),
+                    fetch(`${API_BASE}/bencana${params}`)
+                ]);
+
+                const summary = await summaryResponse.json();
+                const bencana = await bencanaResponse.json();
+
+                // Update summary cards
+                document.getElementById('total-bencana').textContent = summary.total_bencana;
+                document.getElementById('total-donasi').textContent = summary.total_donasi;
+                document.getElementById('total-nominal').textContent = `Rp ${summary.total_nominal_donasi.toLocaleString('id-ID')}`;
+
+                // Update bencana table
+                renderBencanaTable(bencana.slice(0, 10)); // Show latest 10
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showAlert('dashboard', 'Gagal memuat dashboard', 'error');
+            }
+        }
+
+        function renderBencanaTable(bencanaList, containerId = 'bencana-table-container') {
+            const container = document.getElementById(containerId);
+
+            if (bencanaList.length === 0) {
+                container.innerHTML = '<p style="text-align: center; padding: 50px; color: #718096;">Belum ada data bencana</p>';
+                return;
+            }
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Bencana</th>
+                            <th>Nama Bencana</th>
+                            <th>Region</th>
+                            <th>Status</th>
+                            <th>Dibuat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            bencanaList.forEach(b => {
+                html += `
+                    <tr>
+                        <td>${b.id_bencana}</td>
+                        <td>${b.nama_bencana}</td>
+                        <td>${b.region}</td>
+                        <td><span style="color: ${b.status === 'Active' ? '#48bb78' : '#f56565'}">${b.status}</span></td>
+                        <td>${new Date(b.created_at).toLocaleDateString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Bencana management
+        document.getElementById('bencana-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                nama_bencana: document.getElementById('nama-bencana').value,
+                region: document.getElementById('region-bencana').value,
+                status: document.getElementById('status-bencana').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/bencana`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    showAlert('bencana', 'Bencana berhasil ditambahkan!', 'success');
+                    resetBencanaForm();
+                    loadBencanaList();
+                    loadDashboard();
+                } else {
+                    const error = await response.json();
+                    showAlert('bencana', error.detail || 'Gagal menambah bencana', 'error');
+                }
+            } catch (error) {
+                showAlert('bencana', 'Terjadi kesalahan koneksi', 'error');
+            }
+        });
+
+        function resetBencanaForm() {
+            document.getElementById('bencana-form').reset();
+        }
+
+        async function loadBencanaList() {
+            try {
+                const response = await fetch(`${API_BASE}/bencana`);
+                const bencana = await response.json();
+                renderBencanaTable(bencana, 'bencana-list-container');
+            } catch (error) {
+                document.getElementById('bencana-list-container').innerHTML =
+                    '<p style="text-align: center; padding: 50px; color: #f56565;">Gagal memuat data bencana</p>';
+            }
+        }
+
+        // Donasi management
+        document.getElementById('donasi-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                id_bencana: parseInt(document.getElementById('id-bencana-donasi').value),
+                nama_donatur: document.getElementById('nama-donatur').value,
+                nominal: parseFloat(document.getElementById('nominal-donasi').value)
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/donasi`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    showAlert('donasi', 'Donasi berhasil dikirim!', 'success');
+                    resetDonasiForm();
+                    loadDonasiList();
+                    loadDashboard();
+                } else {
+                    const error = await response.json();
+                    showAlert('donasi', error.detail || 'Gagal mengirim donasi', 'error');
+                }
+            } catch (error) {
+                showAlert('donasi', 'Terjadi kesalahan koneksi', 'error');
+            }
+        });
+
+        function resetDonasiForm() {
+            document.getElementById('donasi-form').reset();
+        }
+
+        async function loadDonasiOptions() {
+            try {
+                const response = await fetch(`${API_BASE}/bencana`);
+                const bencana = await response.json();
+                const select = document.getElementById('id-bencana-donasi');
+                select.innerHTML = '<option value="">Pilih Bencana</option>';
+                bencana.forEach(b => {
+                    const option = document.createElement('option');
+                    option.value = b.id_bencana;
+                    option.textContent = `${b.id_bencana} - ${b.nama_bencana} (${b.region})`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading bencana for donasi:', error);
+                document.getElementById('id-bencana-donasi').innerHTML = '<option value="">Gagal memuat bencana</option>';
+            }
+        }
+
+        async function loadDonasiList() {
+            try {
+                const response = await fetch(`${API_BASE}/donasi`);
+                const donasi = await response.json();
+                renderDonasiTable(donasi.slice(0, 20)); // Show latest 20
+            } catch (error) {
+                document.getElementById('donasi-list-container').innerHTML =
+                    '<p style="text-align: center; padding: 50px; color: #f56565;">Gagal memuat data donasi</p>';
+            }
+        }
+
+        function renderDonasiTable(donasiList) {
+            const container = document.getElementById('donasi-list-container');
+
+            if (donasiList.length === 0) {
+                container.innerHTML = '<p style="text-align: center; padding: 50px; color: #718096;">Belum ada data donasi</p>';
+                return;
+            }
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Donasi</th>
+                            <th>ID Bencana</th>
+                            <th>Nama Donatur</th>
+                            <th>Nominal</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            donasiList.forEach(d => {
+                html += `
+                    <tr>
+                        <td>${d.id_donasi}</td>
+                        <td>${d.id_bencana}</td>
+                        <td>${d.nama_donatur}</td>
+                        <td>Rp ${d.nominal.toLocaleString('id-ID')}</td>
+                        <td>${new Date(d.timestamp).toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Site Data
+        async function loadSiteData() {
+            const site = document.getElementById('site-select').value;
+            if (!site) {
+                document.getElementById('site-info').style.display = 'none';
+                document.getElementById('bencana-site-title').style.display = 'none';
+                document.getElementById('donasi-site-title').style.display = 'none';
+                document.getElementById('bencana-site-container').innerHTML = '<div class="loading">Pilih site untuk melihat data</div>';
+                document.getElementById('donasi-site-container').innerHTML = '<div class="loading">Pilih site untuk melihat data</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/site/${site}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load site data');
+                }
+                const data = await response.json();
+
+                // Update site info
+                document.getElementById('site-title').textContent = `Site ${site.charAt(0).toUpperCase() + site.slice(1)}`;
+                document.getElementById('site-regions').textContent = data.regions.join(', ');
+                document.getElementById('site-info').style.display = 'block';
+
+                // Show bencana data
+                document.getElementById('bencana-site-title').style.display = 'block';
+                renderBencanaTable(data.bencana, 'bencana-site-container');
+
+                // Show donasi data
+                document.getElementById('donasi-site-title').style.display = 'block';
+                renderDonasiTable(data.donasi, 'donasi-site-container');
+
+            } catch (error) {
+                console.error('Error loading site data:', error);
+                document.getElementById('bencana-site-container').innerHTML = '<p style="text-align: center; padding: 50px; color: #f56565;">Gagal memuat data bencana</p>';
+                document.getElementById('donasi-site-container').innerHTML = '<p style="text-align: center; padding: 50px; color: #f56565;">Gagal memuat data donasi</p>';
+            }
+        }
+
+        function renderDonasiTable(donasiList, containerId = 'donasi-list-container') {
+            const container = document.getElementById(containerId);
+
+            if (donasiList.length === 0) {
+                container.innerHTML = '<p style="text-align: center; padding: 50px; color: #718096;">Belum ada data donasi</p>';
+                return;
+            }
+
+            let html = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Donasi</th>
+                            <th>ID Bencana</th>
+                            <th>Nama Donatur</th>
+                            <th>Nominal</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            donasiList.forEach(d => {
+                html += `
+                    <tr>
+                        <td>${d.id_donasi}</td>
+                        <td>${d.id_bencana}</td>
+                        <td>${d.nama_donatur}</td>
+                        <td>Rp ${d.nominal.toLocaleString('id-ID')}</td>
+                        <td>${new Date(d.timestamp).toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // Monitoring
+        async function checkHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const health = await response.json();
+
+                document.getElementById('node-jakarta-status').textContent = health.database_nodes.jakarta === 'OK' ? '🟢 OK' : '🔴 ERROR';
+                document.getElementById('node-surabaya-status').textContent = health.database_nodes.surabaya === 'OK' ? '🟢 OK' : '🔴 ERROR';
+                document.getElementById('node-medan-status').textContent = health.database_nodes.medan === 'OK' ? '🟢 OK' : '🔴 ERROR';
+                document.getElementById('node-makassar-status').textContent = health.database_nodes.makassar === 'OK' ? '🟢 OK' : '🔴 ERROR';
+                document.getElementById('node-jayapura-status').textContent = health.database_nodes.jayapura === 'OK' ? '🟢 OK' : '🔴 ERROR';
+
+            } catch (error) {
+                ['jakarta', 'surabaya', 'medan', 'makassar', 'jayapura'].forEach(node => {
+                    document.getElementById(`node-${node}-status`).textContent = '🔴 ERROR';
+                });
+            }
+        }
+
+        // Utility functions
+        function showAlert(tab, message, type) {
+            const alertDiv = document.getElementById(`${tab}-alert`);
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboard();
+            checkHealth();
+        });
+    </script>
+</body>
+</html>

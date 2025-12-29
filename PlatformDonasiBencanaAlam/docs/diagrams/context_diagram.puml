@@ -1,0 +1,8 @@
+@startuml context diagram
+actor Pengguna
+
+rectangle "Platform Donasi Bencana" {
+  Pengguna --> Middleware : Permintaan Donasi / Informasi
+  Middleware --> "Basis Data Terdistribusi" : Akses Data
+}
+@enduml

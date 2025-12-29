@@ -1,0 +1,35 @@
+@startuml arsitektur_global
+left to right direction
+
+actor Client
+component Middleware
+
+package "Master Databases" {
+  database "Jakarta" as MasterJakarta
+  database "Medan" as MasterMedan
+  database "Makassar" as MasterMakassar
+  database "Surabaya" as MasterSurabaya
+  database "Jayapura" as MasterJayapura
+}
+
+package "Replica Databases" {
+  database "Jakarta" as RJ
+  database "Medan" as RM
+  database "Makassar" as RMA
+  database "Surabaya" as RS
+  database "Jayapura" as RJY
+}
+
+Client --> Middleware : HTTP Request
+Middleware --> MasterJakarta : Write
+Middleware --> MasterMedan : Write
+Middleware --> MasterMakassar : Write
+Middleware --> MasterSurabaya : Write
+Middleware --> MasterJayapura : Write
+
+Middleware --> RJ : Read
+Middleware --> RM : Read
+Middleware --> RMA : Read
+Middleware --> RS : Read
+Middleware --> RJY : Read
+@enduml

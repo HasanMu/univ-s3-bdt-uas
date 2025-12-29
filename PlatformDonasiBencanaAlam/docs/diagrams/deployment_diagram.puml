@@ -1,0 +1,13 @@
+@startuml deployment_diagram
+
+node Docker {
+  component Client
+  component Middleware
+  component "Master DB"
+  component "Replica DB"
+}
+
+Client --> Middleware
+Middleware --> "Master DB"
+Middleware --> "Replica DB"
+@enduml

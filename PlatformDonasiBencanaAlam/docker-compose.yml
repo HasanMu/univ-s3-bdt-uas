@@ -1,0 +1,211 @@
+version: "3.9"
+
+services:
+
+  # ================= JAKARTA =================
+  jakarta_master:
+    image: postgres:15
+    container_name: postgres_jakarta_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: d3p_jakarta
+      PGOPTIONS: >
+        -c app.db_name=d3p_jakarta
+      ALLOWED_REGIONS_SQL: DKI_Jakarta,Banten,Jawa_Barat
+    volumes:
+      - jakarta_master_data:/var/lib/postgresql/data
+      - ./master/init.sql.template:/docker-entrypoint-initdb.d/init.sql.template
+      - ./master/00-render-init.sh:/docker-entrypoint-initdb.d/00-render-init.sh
+      - ./master/10-replication-hba.sh:/docker-entrypoint-initdb.d/10-replication-hba.sh
+    ports:
+      - "5433:5432"
+
+  jakarta_replica:
+    image: postgres:15
+    container_name: postgres_jakarta_replica
+    depends_on:
+      - jakarta_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MASTER_HOST: jakarta_master
+    volumes:
+      - jakarta_replica_data:/var/lib/postgresql/data
+      - ./replica/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
+    command: postgres
+
+  # ================= JAYAPURA =================
+  jayapura_master:
+    image: postgres:15
+    container_name: postgres_jayapura_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: d3p_jayapura
+      PGOPTIONS: >
+        -c app.db_name=d3p_jayapura
+      ALLOWED_REGIONS_SQL: Papua,Papua_Barat
+    volumes:
+      - jayapura_master_data:/var/lib/postgresql/data
+      - ./master/init.sql.template:/docker-entrypoint-initdb.d/init.sql.template
+      - ./master/00-render-init.sh:/docker-entrypoint-initdb.d/00-render-init.sh
+      - ./master/10-replication-hba.sh:/docker-entrypoint-initdb.d/10-replication-hba.sh
+    ports:
+      - "5434:5432"
+
+  jayapura_replica:
+    image: postgres:15
+    container_name: postgres_jayapura_replica
+    depends_on:
+      - jayapura_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MASTER_HOST: jayapura_master
+    volumes:
+      - jayapura_replica_data:/var/lib/postgresql/data
+      - ./replica/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
+    command: postgres
+
+  # ================= MAKASSAR =================
+  makassar_master:
+    image: postgres:15
+    container_name: postgres_makassar_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: d3p_makassar
+      PGOPTIONS: >
+        -c app.db_name=d3p_makassar
+      ALLOWED_REGIONS_SQL: Sulawesi_Selatan,Sulawesi_Barat,Sulawesi_Tenggara,Gorontalo,Sulawesi_Tengah
+    volumes:
+      - makassar_master_data:/var/lib/postgresql/data
+      - ./master/init.sql.template:/docker-entrypoint-initdb.d/init.sql.template
+      - ./master/00-render-init.sh:/docker-entrypoint-initdb.d/00-render-init.sh
+      - ./master/10-replication-hba.sh:/docker-entrypoint-initdb.d/10-replication-hba.sh
+    ports:
+      - "5435:5432"
+
+  makassar_replica:
+    image: postgres:15
+    container_name: postgres_makassar_replica
+    depends_on:
+      - makassar_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MASTER_HOST: makassar_master
+    volumes:
+      - makassar_replica_data:/var/lib/postgresql/data
+      - ./replica/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
+    command: postgres
+
+  # ================= MEDAN =================
+  medan_master:
+    image: postgres:15
+    container_name: postgres_medan_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: d3p_medan
+      PGOPTIONS: >
+        -c app.db_name=d3p_medan
+      ALLOWED_REGIONS_SQL: Sumatera_Utara,Aceh,Riau,Sumatera_Barat,Jambi,Sumatera_Selatan,Lampung,Bangka_Belitung
+    volumes:
+      - medan_master_data:/var/lib/postgresql/data
+      - ./master/init.sql.template:/docker-entrypoint-initdb.d/init.sql.template
+      - ./master/00-render-init.sh:/docker-entrypoint-initdb.d/00-render-init.sh
+      - ./master/10-replication-hba.sh:/docker-entrypoint-initdb.d/10-replication-hba.sh
+    ports:
+      - "5436:5432"
+
+  medan_replica:
+    image: postgres:15
+    container_name: postgres_medan_replica
+    depends_on:
+      - medan_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MASTER_HOST: medan_master
+    volumes:
+      - medan_replica_data:/var/lib/postgresql/data
+      - ./replica/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
+    command: postgres
+
+  # ================= SURABAYA =================
+  surabaya_master:
+    image: postgres:15
+    container_name: postgres_surabaya_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: d3p_surabaya
+      PGOPTIONS: >
+        -c app.db_name=d3p_surabaya
+      ALLOWED_REGIONS_SQL: Jawa_Timur,Bali,Nusa_Tenggara_Barat,Nusa_Tenggara_Timur,Jawa_Tengah
+    volumes:
+      - surabaya_master_data:/var/lib/postgresql/data
+      - ./master/init.sql.template:/docker-entrypoint-initdb.d/init.sql.template
+      - ./master/00-render-init.sh:/docker-entrypoint-initdb.d/00-render-init.sh
+      - ./master/10-replication-hba.sh:/docker-entrypoint-initdb.d/10-replication-hba.sh
+    ports:
+      - "5437:5432"
+
+  surabaya_replica:
+    image: postgres:15
+    container_name: postgres_surabaya_replica
+    depends_on:
+      - surabaya_master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MASTER_HOST: surabaya_master
+    volumes:
+      - surabaya_replica_data:/var/lib/postgresql/data
+      - ./replica/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]
+    command: postgres
+
+  # Middleware Application Server
+  middleware:
+    build:
+      context: ./middleware
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - jakarta_master
+      - surabaya_master
+      - makassar_master
+      - jayapura_master
+      - medan_master
+    environment:
+      - NODE_ENV=production
+
+  # Client Web Server
+  client:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./client:/usr/share/nginx/html
+    depends_on:
+      - middleware
+
+volumes:
+  jakarta_master_data:
+  jakarta_replica_data:
+  jayapura_master_data:
+  jayapura_replica_data:
+  makassar_master_data:
+  makassar_replica_data:
+  medan_master_data:
+  medan_replica_data:
+  surabaya_master_data:
+  surabaya_replica_data:

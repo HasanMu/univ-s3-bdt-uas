@@ -1,0 +1,6 @@
+@startuml replication_db_diagram
+database "Master Database" as Master
+database "Replica Database" as Replica
+
+Master --> Replica : Streaming Replication
+@enduml
