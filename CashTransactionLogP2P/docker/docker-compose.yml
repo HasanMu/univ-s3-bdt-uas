@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  pg_node_a:
+    image: postgres:15
+    container_name: pg_node_a
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cashlog
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_node_a:/var/lib/postgresql/data
+    networks:
+      - p2p_net
+
+  pg_node_b:
+    image: postgres:15
+    container_name: pg_node_b
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cashlog
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_node_b:/var/lib/postgresql/data
+    networks:
+      - p2p_net
+
+volumes:
+  pgdata_node_a:
+  pgdata_node_b:
+
+networks:
+  p2p_net:
+    driver: bridge

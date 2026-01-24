@@ -7,5 +7,7 @@ Repository ini berisi implementasi berbagai konsep sistem basis data terdistribu
 
 Sistem terdistribusi regional untuk pengelolaan donasi bencana dengan 5 node database (Jakarta, Surabaya, Medan, Makassar, Jayapura) menggunakan PostgreSQL, Docker, dan Node.js middleware.
 
-### 2. Project 2: Peer-to-Peer Architecture
-**Status:** Coming Soon
+### 2. [Transaction Log P2P](CashTransactionLogP2P/README.md)
+**Arsitektur:** Peer-to-Peer dengan PostgreSQL Logical Replication
+
+Sistem simulasi basis data terdistribusi untuk replikasi log transaksi pembayaran tunai antar node lokal menggunakan Docker dan PostgreSQL.
