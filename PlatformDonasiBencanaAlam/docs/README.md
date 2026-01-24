@@ -32,31 +32,26 @@ Dalam era digital saat ini, pengelolaan data bencana memerlukan sistem yang mamp
 - Manfaat Penelitian
 - Sistematika Penulisan
 
-### [BAB II: Tinjauan Pustaka](BAB_II_Tinjauan_Pustaka.md)
-- Sistem Terdistribusi
-- Basis Data Terdistribusi
-- Fragmentasi Data
-- Replikasi Basis Data
-- Middleware
-- Docker dan Containerisasi
-
-### [BAB III: Metodologi dan Perancangan Sistem](BAB_III_Metodologi_dan_Perancangan_Sistem.md)
-- Gambaran Umum Arsitektur Sistem
-- Pembagian Node dan Wilayah Layanan
+### [BAB II: Analisis dan Perancangan](BAB_II_Analisis_dan_Perancangan.md)
+- Analisis Kebutuhan
+- Perancangan Arsitektur
+- Perancangan Database
 - Perancangan Middleware
-- Perancangan Basis Data Terdistribusi
-- Pengaturan Hak Akses dan Keamanan Data
-- Deployment Sistem Menggunakan Docker
-- Alur Operasional Sistem
+- Perancangan Antarmuka
 
-### [BAB IV: Implementasi dan Pengujian](BAB_IV_Implementasi_dan_Pengujian.md)
-- Implementasi Lingkungan Sistem
-- Implementasi Container dan Orkestrasi Docker
-- Implementasi Fragmentasi Data Horizontal
-- Implementasi Middleware dan Routing Data
-- Implementasi Replikasi Database
-- Hasil Pengujian Sistem
-- Pembahasan
+### [BAB III: Implementasi](BAB_III_Implementasi.md)
+- Implementasi Arsitektur Sistem
+- Implementasi Database Terdistribusi
+- Implementasi Middleware
+- Implementasi Antarmuka Client
+- Integrasi Sistem
+
+### [BAB IV: Pengujian dan Evaluasi](BAB_IV_Pengujian_dan_Evaluasi.md)
+- Metodologi Pengujian
+- Hasil Pengujian Fungsional
+- Hasil Pengujian Kinerja
+- Hasil Pengujian Konsistensi Data
+- Analisis dan Pembahasan
 
 ### [BAB V: Kesimpulan dan Saran](BAB_V_Kesimpulan_dan_Saran.md)
 - Kesimpulan
@@ -89,4 +84,4 @@ Dokumentasi ini disusun sebagai laporan teknis yang dapat dikembangkan lebih lan
 
 ## Referensi
 
-Daftar referensi lengkap dapat ditemukan di [BAB I: Pendahuluan](BAB_I_Pendahuluan.md) dan [BAB II: Tinjauan Pustaka](BAB_II_Tinjauan_Pustaka.md).
+Daftar referensi lengkap dapat ditemukan di [BAB I: Pendahuluan](BAB_I_Pendahuluan.md) dan [BAB II: Analisis dan Perancangan](BAB_II_Analisis_dan_Perancangan.md).

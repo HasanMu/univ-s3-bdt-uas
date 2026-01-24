@@ -1,26 +1,31 @@
 # BAB V
+
 ## KESIMPULAN DAN SARAN
 
-### 5.1 Kesimpulan
+## 5.1 Kesimpulan
 
-Berdasarkan hasil perancangan, implementasi, dan pengujian sistem yang telah dilakukan, dapat disimpulkan bahwa platform donasi bencana alam berbasis basis data terdistribusi berhasil dibangun dan dijalankan sesuai dengan tujuan penelitian. Sistem ini mampu mengelola data bencana dan donasi secara terdistribusi dengan menerapkan fragmentasi data horizontal berdasarkan wilayah geografis serta replikasi database untuk menjaga ketersediaan dan konsistensi data.
+Berdasarkan hasil analisis, perancangan, implementasi, serta pengujian yang telah dilakukan pada bab-bab sebelumnya, dapat disimpulkan bahwa:
 
-Penerapan middleware sebagai pengatur routing data terbukti efektif dalam menentukan node database yang sesuai tanpa membebani client dengan kompleksitas distribusi data. Selain itu, mekanisme replikasi PostgreSQL master–replica memungkinkan data tetap tersedia untuk operasi baca meskipun terjadi gangguan pada node utama. Hasil pengujian menunjukkan bahwa data hanya tersimpan pada node yang sesuai dengan wilayahnya dan berhasil direplikasi ke database cadangan, sehingga sistem memenuhi aspek skalabilitas, konsistensi, dan keandalan.
+1. Sistem basis data terdistribusi berbasis wilayah yang diterapkan pada Platform Donasi Bencana Alam berhasil direalisasikan sesuai dengan tujuan penelitian. Arsitektur yang dirancang mampu mengatasi permasalahan keterbatasan sistem basis data terpusat, khususnya terkait ketersediaan layanan dan risiko kegagalan tunggal.
 
-Dengan demikian, sistem yang dibangun telah memenuhi kebutuhan platform donasi bencana alam yang membutuhkan pengelolaan data lintas wilayah secara terstruktur dan terdistribusi.
+2. Mekanisme replikasi basis data dengan arsitektur master–replica terbukti dapat meningkatkan ketersediaan layanan serta memungkinkan pemisahan beban operasi baca dan tulis. Dengan pendekatan ini, konsistensi data donasi tetap terjaga pada kondisi operasional normal.
 
-### 5.2 Saran
+3. Penerapan fragmentasi horizontal secara logis berbasis wilayah, yang dikendalikan oleh middleware, mampu mendistribusikan data sesuai dengan lokasi bencana tanpa memerlukan pemisahan tabel secara fisik di tingkat DBMS. Strategi ini selaras dengan kebutuhan sistem dan keterbatasan teknologi yang digunakan.
 
-Meskipun sistem telah berjalan dengan baik, terdapat beberapa pengembangan yang dapat dilakukan pada penelitian atau implementasi selanjutnya, antara lain:
+4. Middleware berperan penting sebagai penghubung antara client dan basis data terdistribusi, khususnya dalam melakukan routing akses data berdasarkan wilayah serta menyederhanakan interaksi client terhadap kompleksitas sistem terdistribusi.
 
-1. Menambahkan mekanisme load balancing pada middleware untuk mendistribusikan beban baca secara lebih optimal ke database replica.
+5. Hasil pengujian menunjukkan bahwa sistem mampu berfungsi dengan baik dalam skenario yang diuji, termasuk proses distribusi data, replikasi basis data, dan ketersediaan layanan ketika salah satu node mengalami gangguan.
 
-2. Mengimplementasikan monitoring dan logging terpusat untuk memantau performa node database dan middleware secara real-time.
+## 5.2 Saran
 
-3. Mengembangkan fitur failover otomatis agar sistem dapat berpindah ke node cadangan secara transparan ketika node master mengalami kegagalan.
+Berdasarkan hasil penelitian dan keterbatasan sistem yang telah diidentifikasi, beberapa saran untuk pengembangan lebih lanjut adalah sebagai berikut:
 
-4. Memperluas fragmentasi data dengan pendekatan hybrid fragmentation (horizontal dan vertikal) untuk kebutuhan data yang lebih kompleks.
+1. Pengembangan mekanisme failover otomatis pada node basis data untuk meningkatkan ketahanan sistem terhadap kegagalan node master.
 
-5. Meningkatkan aspek keamanan dengan penerapan enkripsi koneksi, manajemen kredensial yang lebih ketat, serta audit akses data.
+2. Penerapan mekanisme monitoring dan logging terpusat guna memudahkan proses pemantauan kinerja dan kesehatan sistem basis data terdistribusi.
 
-Pengembangan tersebut diharapkan dapat meningkatkan keandalan, keamanan, dan skalabilitas sistem di masa mendatang.
+3. Pengujian sistem pada skala yang lebih besar dengan beban akses yang lebih tinggi untuk mengevaluasi performa dan skalabilitas sistem secara lebih menyeluruh.
+
+4. Pengembangan strategi replikasi dan konsistensi data yang lebih lanjut, seperti penerapan replikasi sinkron atau mekanisme conflict handling, sesuai dengan kebutuhan sistem di masa mendatang.
+
+5. Integrasi aspek keamanan yang lebih komprehensif, khususnya pada lapisan jaringan dan aplikasi, untuk mendukung penggunaan sistem dalam lingkungan produksi.
